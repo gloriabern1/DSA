@@ -1,0 +1,71 @@
+3. Longest Substring Without Repeating Characters
+
+
+Given a string s, find the length of the longest
+substring
+without repeating characters.
+Example 1:
+
+Input: s = "abcabcbb"
+Output: 3
+Explanation: The answer is "abc", with the length of 3.
+
+Example 2:
+
+Input: s = "bbbbb"
+Output: 1
+Explanation: The answer is "b", with the length of 1.
+
+Example 3:
+
+Input: s = "pwwkew"
+Output: 3
+Explanation: The answer is "wke", with the length of 3.
+Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
+
+Constraints:
+
+    0 <= s.length <= 5 * 104
+    s consists of English letters, digits, symbols and spaces.
+
+
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var lengthOfLongestSubstring = function(s) {
+    //Holds all characters and their index, as we loop through the array
+    let charCount= {};
+    //pointer used for creating a new substring when a duplicate char is found
+    let left=0;
+    //pointer looping through each item in the string
+    let right=0;
+    let res=0;
+    //for loop solution
+    for(let i=0; i<s.length; i++){
+        let existingIndex= charCount[s[i]]
+        if(existingIndex != null && existingIndex>=left){
+         left=existingIndex+1;
+
+        }
+        charCount[s[i]]=i;
+        res= Math.max(res, i-left+1);
+    }
+//while loop solution.
+    // while(right< s.length){
+    //     //get index of the char if it already existing the object;
+    //                 let existingIndex= charCount[s[right]];
+    //     //check if character already exists and if it exsits in the current substring
+    //         if(existingIndex !== null && existingIndex>=left && existingIndex<right){
+    //             //move left pointer of sliding window to the immidiate index after the duplicate character.
+    //             left=existingIndex+1;
+    //         }
+    //     // compare current substring length with previous substring length ang get maximum
+    //   res=Math.max(res, right-left+1)
+    //   //add new charater and index to the object
+    //   charCount[s[right]]=right;
+    //   right++;
+    // }
+
+    return res;
+};
