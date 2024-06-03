@@ -1,0 +1,78 @@
+//Addition of two linked list
+
+class ListNode {
+    constructor(val = 0, next = null) {
+        this.val = val;
+        this.next = next;
+    }
+}
+
+function twoSum(lst1, lst2) {
+    let ll1 = createLinkedList(lst1);
+    let ll2 = createLinkedList(lst2);
+    let result = implementTwoSum(ll1, ll2);
+    printLinkedList(result);
+}
+
+function createLinkedList(lst) {
+    let dummyHead = new ListNode(0);
+    let current = dummyHead;
+    for (let number of lst) {
+        current.next = new ListNode(number);
+        current = current.next;
+    }
+    return dummyHead.next;
+}
+
+function reverseLinkedListToArr(lst){
+    let la= []
+    let curr= lst;
+    while(curr){
+     la.unshift(curr.val);
+     curr=curr.next;
+  }
+  return la;
+}
+// console.log(implementTwoSum(createLinkedList([2, 4, 3]), createLinkedList([5,6,4])));
+function implementTwoSum(ll1, ll2) {
+    // Implement your logic here
+    let res=[];
+    const l1A= reverseLinkedListToArr(ll1);
+    const l2A= reverseLinkedListToArr(ll2);
+     let carry=0
+    for(let i=0; i<l1A.length+ l2A.length; i++){
+        let sum=0;
+      if(l1A.length>i && l2A.length>i){
+        sum= l1A[i]+ carry +l2A[i];
+      }
+      else if(l1A.length>i){
+          sum= l1A[i]+ carry;
+      }
+      else if(l2A.length> i){
+          sum= l2A[i] + carry;
+      }
+      else{
+          break;
+      }
+        
+     let value= sum%10;
+       carry = Math.floor(sum/10);
+       res.unshift(value);
+
+    }
+    return createLinkedList(res);
+}
+
+function printLinkedList(head) {
+    let current = head;
+    while (current) {
+        console.log(current.val + (current.next ? " -> " : ""));
+        current = current.next;
+    }
+    console.log();
+}
+
+// Example usage
+const lst1 = [3,9,4,7];
+const lst2 = [8,3,8];
+twoSum(lst1, lst2);
