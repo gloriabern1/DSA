@@ -38,13 +38,15 @@ return validateDFS(root.left, low, root.val) && validateDFS(root.right, root.val
  * @return {boolean}
  */
 var isValidBST = function(root) {
+    let prev =null;
+    function inOrderValidate(node){
+    if(node == null) return true;
+    if(!inOrderValidate(node.left)){return false};
+    if(prev != null && node.val<= prev){return false}
+    prev=node.val;
+    return inOrderValidate(node.right);
+}
     return inOrderValidate(root, null);
 };
 
-function inOrderValidate(root, prev){
-    if(root== null) return true;
-    if(!inOrderValidate(root.left, prev)){return false};
-    if(prev!=null && prev>=root.val){return false}
-    prev=root.val;
-    return inOrderValidate(root.right, prev);
-}
+
