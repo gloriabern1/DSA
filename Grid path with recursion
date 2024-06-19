@@ -1,0 +1,30 @@
+write a function that takes two inputs n and m and outputs the number of unique paths from the top left corner to the bottom right corner of a nxm grid.
+Constraints: you can only move down or right 1 unit at a time
+//Soution without memoization
+function getgripath(n,m){
+  if(n===1 || m===1) return 1;
+ 
+  return getgripath(n-1,m)+ getgripath(n, m-1);
+}
+// Log to console
+console.log(getgripath(2,2));
+
+//Solution using memoization to remember already computed paths and improve performance
+function getgripath(n, m, memo = {}) {
+    // Base case: if either dimension is 1, there's only one path
+    if (n === 1 || m === 1) return 1;
+
+    // Create a unique key for the memoization table
+    const key = `${n},${m}`;
+
+    // If the result is already computed, return it
+    if (memo[key] !== undefined) return memo[key];
+
+    // Compute the number of paths by moving right and down
+    memo[key] = getgripath(n - 1, m, memo) + getgripath(n, m - 1, memo);
+    return memo[key];
+}
+
+// Example usage:
+console.log(getgripath(3, 7)); // Outputs 28
+console.log(getgripath(3, 3)); // Outputs 6
