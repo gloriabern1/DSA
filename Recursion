@@ -1,0 +1,38 @@
+//using recursion to sum an array from the beginning of the array
+
+function sumRecursionBegin(arr){
+  function recurarr(i){
+    if(i===arr.length-1) {return arr[i]};
+   return arr[i]+ recurarr(++i);
+  }
+  return recurarr(0);
+}
+
+//using recursion to sum an array from the end of the array
+function sumRecursionEnd(arr){
+  function recurarr(i){
+    if(i===0) {return arr[i]};
+   return arr[i]+ recurarr(--i);
+  }
+  return recurarr(arr.length-1);
+}
+
+//return all positive integers less than 8
+const message = 'Hello world' // Try edit me
+
+function getAllPositiveEvenNumbers(num){
+  let Evarr=[];
+  function recurEven(n){
+   if(n===0) return Evarr;
+    
+    Evarr.push(n);
+    recurEven(n-2);
+    
+   //return n + recurEven(n-2);
+  }
+  recurEven(num-2);
+  return Evarr;
+}
+// Log to console
+console.log(getAllPositiveEvenNumbers(8));
+
