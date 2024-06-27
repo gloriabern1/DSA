@@ -1,38 +1,154 @@
-//using recursion to sum an array from the beginning of the array
+class Node{
+constructor(value){
+this.val= value,
+this.left=null,
+this.right=null
 
-function sumRecursionBegin(arr){
-  function recurarr(i){
-    if(i===arr.length-1) {return arr[i]};
-   return arr[i]+ recurarr(++i);
-  }
-  return recurarr(0);
+}
 }
 
-//using recursion to sum an array from the end of the array
-function sumRecursionEnd(arr){
-  function recurarr(i){
-    if(i===0) {return arr[i]};
-   return arr[i]+ recurarr(--i);
+class BST{
+  constructor(){
+  this.root=null;
   }
-  return recurarr(arr.length-1);
+  
+  //adding a new node to a BST
+  insert(value){
+   const newNode= new Node(value);
+   if(this.root===null) {
+   this.root=newNode;
+   return this;
+   }
+   //pointer for traversing the BST
+   let temp= this.root;
+   while(true){
+   //its not a valid BST because valid BST don't have two nodes with the same value
+   if(newNode.val ===temp.val) return undefined;
+   if(newNode.val<temp.val){
+     if(temp.left===null){
+      temp.left=newNode;
+      return this;
+     }
+     temp=temp.left;
+   }
+   else{
+   if(temp.right===null){
+   temp.right=newNode;
+   return this;
+   }
+   temp=temp.right;
+   }
+   
+}
+   
+  }
+  //contains function using iteration
+  contains(value){
+  if(this.root===null) return false;
+  let temp= this.root;
+  while(temp){
+  if(value<temp.val){
+  temp= temp.left;
+  }
+  else if(value>temp.val){
+  temp= temp.left
+  }
+  else{
+  return true;
+  }
+  return false;
+  
+  }
+  }
+  
+  //contains function using recursion
+ containsRecursion(value){
+   function search(node){
+   if(node.val == value){ return true;}
+   
+   if(node.right!==null && value>node.val) return search(node.right);
+   
+   if(node.left!==null && value<node.val) return search (node.left);
+   
+   return false;
+   }
+   return search(this.root);
+ }
+
+BFS(){
+let queue=[this.root];
+let result=[];
+
+while(queue.length>0){
+let temp= queue.shift();
+result.push(temp.val);
+if(temp.left!=null) queue.push(temp.left);
+if(temp.right!=null) queue.push(temp.right);
+}
+return result;
 }
 
-//return all positive integers less than 8
-const message = 'Hello world' // Try edit me
-
-function getAllPositiveEvenNumbers(num){
-  let Evarr=[];
-  function recurEven(n){
-   if(n===0) return Evarr;
-    
-    Evarr.push(n);
-    recurEven(n-2);
-    
-   //return n + recurEven(n-2);
-  }
-  recurEven(num-2);
-  return Evarr;
+BFSRecursion(){
+ let levels=[];
+    function nodeArr(node, level){
+   //check if the number of child array is equal to the current level of the tree. If true, we need to push a new array for the next level items. Note: level 0 should be at array length of 1.
+    if(levels.length==level) levels.push([]);
+    levels[level].push(node.val);
+    if(node.left!=null) nodeArr(node.left, level+1);
+    if(node.right!=null) nodeArr(node.right, level+1);
 }
-// Log to console
-console.log(getAllPositiveEvenNumbers(8));
+    if(this.root!=null)nodeArr(this.root,0);
+    return levels.flat();
+}
 
+DFSPreorder(){
+let result=[];
+function preorder(node){
+result.push(node.val);
+ if(node.left!=null) preorder(node.left);
+    if(node.right!=null) preorder(node.right)
+
+}
+preorder(this.root);
+return result;
+}
+
+DFSPostorder(){
+let result=[];
+function postorder(node){
+
+ if(node.left!=null) postorder(node.left);
+ if(node.right!=null) postorder(node.right)
+result.push(node.val);
+}
+postorder(this.root);
+return result;
+}
+
+DFSInorder(){
+let result=[];
+function Inorder(node){
+
+ if(node.left!=null) Inorder(node.left);
+ result.push(node.val);
+ if(node.right!=null) Inorder(node.right)
+
+}
+Inorder(this.root);
+return result;
+}
+
+}
+
+
+
+let test= new BST();
+test.insert(47);
+test.insert(21);
+test.insert(76);
+test.insert(18);
+test.insert(27);
+test.insert(52);
+test.insert(82);
+
+console.log(test.DFSInorder());
