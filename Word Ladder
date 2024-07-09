@@ -1,0 +1,115 @@
+A transformation sequence from word beginWord to word endWord using a dictionary wordList is a sequence of words beginWord -> s1 -> s2 -> ... -> sk such that:
+
+    Every adjacent pair of words differs by a single letter.
+    Every si for 1 <= i <= k is in wordList. Note that beginWord does not need to be in wordList.
+    sk == endWord
+
+Given two words, beginWord and endWord, and a dictionary wordList, return the number of words in the shortest transformation sequence from beginWord to endWord, or 0 if no such sequence exists.
+
+ 
+
+Example 1:
+
+Input: beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"]
+Output: 5
+Explanation: One shortest transformation sequence is "hit" -> "hot" -> "dot" -> "dog" -> cog", which is 5 words long.
+
+Example 2:
+
+Input: beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log"]
+Output: 0
+Explanation: The endWord "cog" is not in wordList, therefore there is no valid transformation sequence.
+
+ 
+
+Constraints:
+
+    1 <= beginWord.length <= 10
+    endWord.length == beginWord.length
+    1 <= wordList.length <= 5000
+    wordList[i].length == beginWord.length
+    beginWord, endWord, and wordList[i] consist of lowercase English letters.
+    beginWord != endWord
+    All the words in wordList are unique.
+
+
+
+
+
+/**
+ * @param {string} beginWord
+ * @param {string} endWord
+ * @param {string[]} wordList
+ * @return {number}
+ */
+var ladderLength = function(beginWord, endWord, wordList) {
+
+    if(!wordList.includes(endWord)) return 0;
+    let patterndict= {};
+    //not adding the begin word to the list because the transformation always starts with that list and it cannot appear anywhere else in the sequence
+    for(let word of wordList){
+        //console.log('word', word)
+        //generate the patterns that can be gotten from a word e.g if word is hot, then patterns ==> h*t, *ot, ho*
+        for(let i=0; i<beginWord.length; i++){
+            //generate a pattern by replacing the word at an index
+            let p= ReplaceAt(word, i, beginWord.length);
+            //check if pattern already exist in the dictionary
+            if(!patterndict[p]){
+                //if it doesnot exist add an array for the pattern
+                patterndict[p]=[];
+                
+            }
+            //append the current word to the pattern, to show all the neigbours for a patterns(adjacent list)
+        //{'*ot': [ 'hot' ],
+        //'h*t': [ 'hot' ],
+        //'ho*': [ 'hot' ],
+        //'*og': [ 'dog' ],
+        //'d*g': [ 'dog' ]}
+            patterndict[p].push(word);
+        }
+    }
+ //console.log("patterndict", patterndict)
+ //start Bfs traversal to get the shortest path to the end word
+ // Queue for BFS
+    let q= [[beginWord, 1]];
+     // Visited to make sure we don't repeat processing same word.
+    let Visited= {beginWord: true};
+    while(q.length>0){
+      //console.log("q", q)
+        let node= q.shift();
+        let word= node[0];
+        let level= node[1];
+         //generate the patterns that can be gotten from a word e.g if word is hot, then patterns ==> h*t, *ot, ho*
+        for(let i=0; i<beginWord.length; i++){
+             //generate a pattern by replacing the word at an index
+            let p= ReplaceAt(word, i, beginWord.length);
+            //get all the neighbours/values of a pattern e.g  '*ot': [ 'hot', 'dot', 'lot' ]
+            let patternWordList= patterndict[p]??[];
+            for(let patternword of patternWordList){
+                //if any of the neighbour of a pattern is the endword, then we have found the shortest path.
+                if(patternword== endWord){
+                    // The current level, plus the new level
+                    return level+1;
+                };
+
+                //check if a word has already being visited/added to the queue at some point
+                if(!Visited[patternword]){
+                    Visited[patternword]= true;
+                    //If a word has not been visited, that means, no previous pattern marched that word, so its a new level.
+                    q.push([patternword, level+1]);
+                }
+            }
+           
+        }
+    } 
+// When there is not transformation between the start and endword
+    return 0;
+
+};
+
+//custom replace function, because js does not have an inbuilt replace function.
+//Instead, we are creating a new string using substrings, without the character to be replaced
+function ReplaceAt(str, i, length){
+
+    return str.substring(0, i) + '*' + str.substring(i+1, length);
+}
