@@ -1,0 +1,161 @@
+A transformation sequence from word beginWord to word endWord using a dictionary wordList is a sequence of words beginWord -> s1 -> s2 -> ... -> sk such that:
+
+    Every adjacent pair of words differs by a single letter.
+    Every si for 1 <= i <= k is in wordList. Note that beginWord does not need to be in wordList.
+    sk == endWord
+
+Given two words, beginWord and endWord, and a dictionary wordList, return all the shortest transformation sequences from beginWord to endWord, or an empty list if no such sequence exists. Each sequence should be returned as a list of the words [beginWord, s1, s2, ..., sk].
+
+ 
+
+Example 1:
+
+Input: beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"]
+Output: [["hit","hot","dot","dog","cog"],["hit","hot","lot","log","cog"]]
+Explanation: There are 2 shortest transformation sequences:
+"hit" -> "hot" -> "dot" -> "dog" -> "cog"
+"hit" -> "hot" -> "lot" -> "log" -> "cog"
+
+Example 2:
+
+Input: beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log"]
+Output: []
+Explanation: The endWord "cog" is not in wordList, therefore there is no valid transformation sequence.
+
+ 
+
+Constraints:
+
+    1 <= beginWord.length <= 5
+    endWord.length == beginWord.length
+    1 <= wordList.length <= 500
+    wordList[i].length == beginWord.length
+    beginWord, endWord, and wordList[i] consist of lowercase English letters.
+    beginWord != endWord
+    All the words in wordList are unique.
+    The sum of all shortest transformation sequences does not exceed 105.
+
+
+
+/**
+ * @param {string} beginWord
+ * @param {string} endWord
+ * @param {string[]} wordList
+ * @return {string[][]}
+ */
+var findLadders = function(beginWord, endWord, wordList) {
+     let al= BFS(beginWord, endWord, wordList);
+     console.log('al', al);
+     return DFSResult(al, beginWord, endWord);
+};
+
+function BFS(beginWord, endWord, wordList) {
+
+    if(!wordList.includes(endWord)) return {};
+    let patterndict= {};
+    //not adding the begin word to the list because the transformation always starts with that list and it cannot appear anywhere else in the sequence
+    for(let word of wordList){
+        //console.log('word', word)
+        //generate the patterns that can be gotten from a word e.g if word is hot, then patterns ==> h*t, *ot, ho*
+        for(let i=0; i<beginWord.length; i++){
+            //generate a pattern by replacing the word at an index
+            let p= ReplaceAt(word, i, beginWord.length);
+            //check if pattern already exist in the dictionary
+            if(!patterndict[p]){
+                //if it doesnot exist add an array for the pattern
+                patterndict[p]=[];
+                
+            }
+            //append the current word to the pattern, to show all the neigbours for a patterns(adjacent list)
+        //{'*ot': [ 'hot' ],
+        //'h*t': [ 'hot' ],
+        //'ho*': [ 'hot' ],
+        //'*og': [ 'dog' ],
+        //'d*g': [ 'dog' ]}
+            patterndict[p].push(word);
+        }
+    }
+ //console.log("patterndict", patterndict)
+ //start Bfs traversal to get the shortest path to the end word
+ // Queue for BFS
+    let q= [[beginWord, 1]];
+     // Visited to make sure we don't repeat processing same word.
+    let Visited= {};
+    Visited[beginWord]=1;
+    //This list shows all the childnodes associated with a parent node
+    let ajacencyList={};
+    let resultFound= false;
+    while(q.length>0){
+    //   console.log("q", q)
+    //   console.log('ajacencyList', ajacencyList)
+    //   console.log('Visited', Visited)
+        let node= q.shift();
+        let word= node[0];
+        let level= node[1];
+        ajacencyList[word]=[];
+         //generate the patterns that can be gotten from a word e.g if word is hot, then patterns ==> h*t, *ot, ho*
+        for(let i=0; i<beginWord.length; i++){
+             //generate a pattern by replacing the word at an index
+            let p= ReplaceAt(word, i, beginWord.length);
+            //get all the neighbours/values of a pattern e.g  '*ot': [ 'hot', 'dot', 'lot' ]
+            let patternWordList= patterndict[p]??[];
+            for(let patternword of patternWordList){
+               
+               if(patternword== endWord){
+                resultFound=true;
+               }
+                if(patternword!== word && !ajacencyList[word]?.includes(patternword)){
+
+                    if(!Visited[patternword]){
+                        Visited[patternword]= level+1;
+                    //If a word has not been visited, that means, no previous pattern marched that word, so its a new level.
+                    if(!resultFound)q.push([patternword, level+1])
+                      ajacencyList[word].push(patternword)
+                    }
+                    else{
+                        let wordLevel= Visited[patternword];
+                        //console.log({patternword}, wordLevel);
+                        //console.log({word}, (level) )
+                        if(level< wordLevel) {ajacencyList[word].push(patternword)}
+                    }
+                };
+
+             ;
+            }
+           
+        }
+    } 
+// When there is not transformation between the start and endword
+    return ajacencyList;
+
+};
+
+
+function DFSResult(ajacencyList, beginword, endword){
+    console.log('ajacencyList', ajacencyList);
+    let result=[];
+    function DFS(node, path){
+        path.push(node);
+        if(node==endword){ 
+            result.push([...path]);}
+        else{
+       for(let child of ajacencyList[node]||[]){
+        if(!path.includes(child)){
+        DFS(child, path);}
+       }
+        }
+
+        //pop after a valid path is found
+        path.pop();
+
+    }
+
+    DFS(beginword, []);
+
+    return result;
+}
+
+function ReplaceAt(str, i, length){
+
+    return str.substring(0, i) + '*' + str.substring(i+1, length);
+}
