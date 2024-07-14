@@ -1,0 +1,73 @@
+There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
+
+    For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
+
+Return true if you can finish all courses. Otherwise, return false.
+
+ 
+
+Example 1:
+
+Input: numCourses = 2, prerequisites = [[1,0]]
+Output: true
+Explanation: There are a total of 2 courses to take. 
+To take course 1 you should have finished course 0. So it is possible.
+
+Example 2:
+
+Input: numCourses = 2, prerequisites = [[1,0],[0,1]]
+Output: false
+Explanation: There are a total of 2 courses to take. 
+To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.
+
+
+
+/**
+ * @param {number} numCourses
+ * @param {number[][]} prerequisites
+ * @return {boolean}
+ */
+var canFinish = function (numCourses, prerequisites) {
+    //get ajacencylist to shows the denpendecy of all the courses
+  let al= getAdjacencyList(numCourses, prerequisites);
+
+//path tracks the visited nodes in each unique path of the dfs
+    function DFS(node, path){
+        //This means the course is valid and doesnot have any dependency.
+        //base case of the recursion
+        if(al[node].length==0) {
+            return true};
+            //Checks if a node/course already exists in the current visited nodes for this path(cycle in the path)
+        if(path.includes(node)) return false;
+        
+        path.push(node);
+        //performs def on the dependencies of the node
+       for(let child of al[node]){
+        if(!DFS(child, path)) return false
+        }
+        //REmoves the dependencies of a node/course sinces its valid
+        al[node]=[];
+        //pop after a valid path is found
+        path.pop();
+        return true;
+       
+    }
+    //We are looping through each course because the graph could be disconnected, but still valid e.g numCourses = 20 and  prerequisites = [[0,10],[3,18],[5,5],[6,11],[11,14],[13,1],[15,1],[17,4]]. But since we are alse updating the ajacencylist when a node is valie, the algoritm will still be efficient.
+    for(let i=0; i<numCourses; i++){
+        if(!DFS(i, [])) return false
+    }
+    return true;
+
+};
+
+function getAdjacencyList(c, pre) {
+    let al = {};
+    for(let i=0; i<c; i++){
+        al[i]=[];
+    }
+    for (let p of pre) {
+        al[p[0]].push(p[1])
+
+    }
+    return al;
+}
