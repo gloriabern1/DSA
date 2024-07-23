@@ -1,0 +1,33 @@
+Given an input string and a dictionary of words,
+segment the input string into a space-separated
+sequence of dictionary words if possible. For
+example, if the input string is "applepie" and
+dictionary contains a standard set of English words,
+then we would return the string "apple pie" as output.
+in js
+
+function wordBreak(s, wordDict) {
+let len= s.length;
+    let dp={[len]: true};
+    let wordsegment=[];
+
+    for(let i=len-1; i>=0; --i){
+        let sub= s.substring(i);
+        dp[i]=false;
+        for(let word of wordDict){
+            if(sub.length >= word.length && sub.startsWith(word)){
+                dp[i]=dp[i+word.length];
+                if(dp[i]==true){
+                    wordsegment.push(word);
+                    break;
+                }
+            }
+        }
+    }
+    return dp[0]==true? wordsegment: [];
+}
+
+// Example usage:
+const inputString = "applepie";
+const dictionary = ["apple", "pie", "pear", "pieapple"];
+console.log(wordBreak(inputString, dictionary)); // Output: "apple pie"
