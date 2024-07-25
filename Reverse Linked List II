@@ -1,0 +1,78 @@
+Given the head of a singly linked list and two integers left and right where left <= right, reverse the nodes of the list from position left to position right, and return the reversed list.
+
+ 
+
+Example 1:
+
+Input: head = [1,2,3,4,5], left = 2, right = 4
+Output: [1,4,3,2,5]
+
+Example 2:
+
+Input: head = [5], left = 1, right = 1
+Output: [5]
+
+ 
+
+Constraints:
+
+    The number of nodes in the list is n.
+    1 <= n <= 500
+    -500 <= Node.val <= 500
+    1 <= left <= right <= n
+
+
+Time Complexity=0(n)
+Space complexity 0(1)
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} left
+ * @param {number} right
+ * @return {ListNode}
+ */
+var reverseBetween = function(head, left, right) {
+    let dummyNode= new ListNode(0, head);
+    let counter=1;
+    //pointer for node before left position
+    let lp=dummyNode;
+    let curr= dummyNode.next;
+    //loop to reach node at left position
+    while(counter<= left-1){
+      lp=curr;
+      curr= curr.next;
+      ++counter;
+    }
+    //now lp=node before left;
+    //curr =left position node
+
+//pointer used for reversing node
+    let prev=null;
+    counter=1;
+    //loop to reverse from left to right, until the right position;
+    while(counter <= right-left +1){
+        //store next node of curr
+     let temp= curr.next;
+     //reverse curr node to point to prev
+     curr.next=prev;
+     //move prev point to curr
+     prev=curr;
+     //move curr pointer to next node in the list
+     curr=temp;
+     ++counter;
+    }
+    //lp is still at node before left.
+    //lp.next is left
+    //lp.next.next is null
+     lp.next.next=curr;
+    lp.next=prev;
+
+    return dummyNode.next;
+};
