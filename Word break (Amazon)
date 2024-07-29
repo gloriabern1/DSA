@@ -6,8 +6,10 @@ dictionary contains a standard set of English words,
 then we would return the string "apple pie" as output.
 in js
 
+//solution using dynamic programming
 function wordBreak(s, wordDict) {
 let len= s.length;
+//object for memoization
     let dp={[len]: true};
     let wordsegment=[];
 
