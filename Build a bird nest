@@ -1,10 +1,33 @@
-You are helping the bird build its nest. You are given an array forest , containing positive integers and zeros, and a non-negative integerbird,representing the bird's initial position. Each positive integer within the forest is  considered to be a stick, where theforest [i] represents the length of the ith stick. Each zero within  forest[i] represents that this place is empty.
-Initially, the bird is located atforest [bird] , which is guaranteed to be zero. The bird builds its nest, following thealgorithm:• The bird flies to the right until it finds a stick;• The bird flies back to its initial position and attaches the found stick to the nest;• The bird repeats steps one and two, but changes the flight direction - it now flies to the left;• The bird will repeat steps one and two, changing to the opposite direction each time, until the total length ofthe sticks in the nest reaches100It is guaranteed that the total length of all sticks in the forest is greater or equal to 100. 
-More formally, it is  guaranteed that sum(forest) > 100 The forest is large, so we can safely guarantee that the bird will never reach the end of the forest during the process. More formally, if you follow the algorithm, you will never meet any of these situations.
-. The bird flies to the right, but forest[i]= 0 for every i > bird -.• The bird flies to the left, but forest [i] =0 for every i < bird  Follow the process and return the array containing 0  based indices within the initialforest array of every stick found by the bird, sorted in the order in which it found them.
-Note: You are not expected to provide the most optimal solution, but a solution with time complexity not worse thano(forest. Length)will fit within the execution time limit.Example.Forforest = [250, 50, 0, 0, 0, 0, 15, 0, 0, 45] and bird =4 
-the output should besolution(forest, bird)= [7,2,10]
+You are helping the bird build its nest. You are given an array forest , 
+containing positive integers and zeros, and a non-negative integer bird,
+representing the bird's initial position. Each positive integer within the forest is  
+considered to be a stick, where the forest [i] represents the length of the ith stick.
+ Each zero within  forest[i] represents that this place is empty.
+Initially, the bird is located at forest [bird] , which is guaranteed to be zero
+. The bird builds its nest, following the algorithm:
+• The bird flies to the right until it finds a stick;
+• The bird flies back to its initial position and attaches the found stick to the nest;
+• The bird repeats steps one and two, but changes the flight direction 
+- it now flies to the left;
+• The bird will repeat steps one and two, changing to the opposite direction each time,
+ until the total length ofthe sticks in the nest reaches 100 
+ It is guaranteed that the total length of all sticks in the forest is greater or equal
+  to 100. 
+More formally, it is  guaranteed that sum(forest) > 100 The forest is large,
+ so we can safely guarantee that the bird will never reach the end of the forest 
+ during the process. More formally, if you follow the algorithm, you will never meet
+  any of these situations.
+. The bird flies to the right, but forest[i]= 0 for every i > bird -.
+• The bird flies to the left, but forest [i] =0 for every i < bird
+  Follow the process and return the array containing 0  based indices within the 
+initial forest array of every stick found by the bird, sorted in the order in which 
+it found them.
+Note: You are not expected to provide the most optimal solution, but a solution 
+with time complexity not worse than 0(forest.Length)will fit within the execution time
+ limit.Example.For forest = [250, 50, 0, 0, 0, 0, 15, 0, 0, 45] and bird =4 
+the output should be solution(forest, bird)= [7,2,10]
 
+//Time complexity 0(n), space complexity 0(n)
 function BuildNest(forest, bird) {
    
    let left=bird-1;

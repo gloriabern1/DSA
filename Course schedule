@@ -1,4 +1,6 @@
-There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
+There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. 
+You are given an array prerequisites where prerequisites[i] = [ai, bi] 
+indicates that you must take course bi first if you want to take course ai.
 
     For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
 
@@ -28,20 +30,20 @@ To take course 1 you should have finished course 0, and to take course 0 you sho
  * @return {boolean}
  */
 var canFinish = function (numCourses, prerequisites) {
-    //get ajacencylist to shows the denpendecy of all the courses
+    //get ajacencylist to shows the dependecy of all the courses
   let al= getAdjacencyList(numCourses, prerequisites);
 
 //path tracks the visited nodes in each unique path of the dfs
     function DFS(node, path){
-        //This means the course is valid and doesnot have any dependency.
+        //This means the course is valid and does not have any dependency.
         //base case of the recursion
         if(al[node].length==0) {
             return true};
-            //Checks if a node/course already exists in the current visited nodes for this path(cycle in the path)
+            //Checks if a node/course already exists in the current visited nodes for this path(tp prevent cycle in the path)
         if(path.includes(node)) return false;
         
         path.push(node);
-        //performs def on the dependencies of the node
+        //performs dfs on the dependencies of the node
        for(let child of al[node]){
         if(!DFS(child, path)) return false
         }
