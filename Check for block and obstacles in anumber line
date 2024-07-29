@@ -1,13 +1,29 @@
-Given an infinite integer number line, you would like to build some blocks and obstacles on it Specifically, you have to implement code which supports two types of operations: . [1, x] builds an obstacle at coordinate a along the number line. It is guaranteed that coordinate x does not contain any obstacles when the operation is performed. . [2, x, size] -checks whether it's possible to build a block centered on x and extending size-1 in each direction. For example, for size = 3 and x = 0 , it will check -2 through 2 on the number line for obstacles. Produces "1" if it is possible, i.e., if there are no obstaclesat the specified coordinates, and produces "0" otherwise. Please note that this operation does not actually build the block, it only checks whether a block can be built. Given an array of operations containing both types of operations above, your task is to return abinary string representing the outputs for all [2, x, size] operations.
+Given an infinite integer number line, you would like to build some blocks and 
+obstacles on it Specifically, you have to implement code which supports two types 
+of operations:
+ . [1, x] builds an obstacle at coordinate x along the number line. 
+It is guaranteed that coordinate x does not contain any obstacles when the operation 
+is performed.
+ . [2, x, size] -checks whether it's possible to build a block centered
+ on x and extending size-1 in each direction. For example, for size = 3 and x = 0 , 
+ it will check -2 through 2 on the number line for obstacles. Produces "1" if 
+ it is possible, i.e., if there are no obstacles at the specified coordinates, 
+ and produces "0" otherwise. Please note that this operation does not actually 
+ build the block, it only checks whether a block can be built.
+  Given an array of operations containing both types of operations above, 
+ your task is to return a binary string representing the outputs for all [2, x, size]
+  operations.
 
 function processOperations(operations) {
     let obstacles = new Set();
     let result = '';
 
     for (let operation of operations) {
+        //first item of the array '1' is use to identify build obstacle operation
         if (operation[0] === 1) {
             // [1, x] operation: build an obstacle at coordinate x
             obstacles.add(operation[1]);
+            //first item of the array '2' is use to identify check if block can be build operation
         } else if (operation[0] === 2) {
             // [2, x, size] operation: check if a block can be built
             let x = operation[1];

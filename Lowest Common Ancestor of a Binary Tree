@@ -2,7 +2,9 @@
 
 Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
 
-According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes p and q as the lowest node in T that has both p and q as descendants (where we allow a node to be a descendant of itself).”
+According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between 
+two nodes p and q as the lowest node in T that has both p and q as descendants 
+(where we allow a node to be a descendant of itself).”
 
  
 
@@ -40,7 +42,7 @@ Output: 1
  */
 var lowestCommonAncestor = function(root, p, q) {
 
-        //using dfs to check the left anf right branch of a node
+        //using dfs to check the left and right branch of a node
     function dfs(node){
         if(!node) return null;
         //base case
@@ -50,7 +52,7 @@ var lowestCommonAncestor = function(root, p, q) {
          let left=dfs(node.left);;
          let right= dfs(node.right);
 
-        //checks if the left and righ branch returns a value, then the LCA is the parent node.
+        //checks if the left and right branch returns a value, then the LCA is the parent node.
         if(left && right) {return node;}
         //If only one branch returns a value then the LCA is itself.
         else if(left) {return left}
