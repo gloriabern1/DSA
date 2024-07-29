@@ -37,10 +37,12 @@ Constraints:
  */
 var lengthOfLIS = function(nums) {
 //object for caching the Longest increasing subsequence(LIS) for all index .
+//setting index 0 to 1
     let Lis={0:1};
-
+//loop starting at index 1
     for(let i =1; i<nums.length; i++){
-      //variable to track all index from the beginning of the array whose value is less than nums[i]
+      //variable to track all index from the beginning of the array 
+      //whose value is less than nums[i]
         let j=0;
       //Array to hold the LIS length of all index whose values is less than nums[i]
         let Len=[0];
@@ -52,7 +54,8 @@ var lengthOfLIS = function(nums) {
         }
         j++;
        }
-//Calculate the Lis length for new index of i. Using the max all LiS length of previous indices whose values are less than nums[i] +1 ;
+//Calculate the Lis length for new index of i. Using the max all LiS length 
+//of previous indices whose values are less than nums[i] + 1 (itself) ;
        Lis[i]= 1 + Math.max(...Len);
         console.log('Lis', Lis);
     }
@@ -89,13 +92,16 @@ var lengthOfLIS = function(nums) {
            
         }
    }
-//    Replaces the element at the position left with num. This ensures sub remains sorted and maintains the smallest possible tail values for increasing subsequences.
+//    Replaces the element at the position left with num so there are no duplicates. 
+//This ensures sub remains sorted and maintains the smallest possible tail values for increasing subsequences.
  seq[left]=num;
 }
 
    for(let i=0; i<nums.length; i++){
-//     If sub is empty or the current number num is greater than the last element in sub, append num to sub.
-// Otherwise, find the correct position to replace an element in sub to maintain the property of sub being the smallest possible tail values for increasing subsequences.
+//If sub is empty or the current number num is greater than the last element in sub, append num to sub.
+// Otherwise, find the correct position to replace an element in sub to 
+//maintain the property of sub being the smallest possible tail values for 
+//increasing subsequences.
     if(seq.length===0 || seq[seq.length-1]<nums[i]){
         seq.push(nums[i]);
     }
