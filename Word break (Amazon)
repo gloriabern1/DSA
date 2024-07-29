@@ -21,6 +21,7 @@ let len= s.length;
                 dp[i]=dp[i+word.length];
                 if(dp[i]==true){
                     wordsegment.push(word);
+                //once a word is found for a substring, we can break the loop. 
                     break;
                 }
             }
