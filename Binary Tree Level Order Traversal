@@ -1,4 +1,5 @@
-Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).
+Given the root of a binary tree, return the level order traversal of its nodes' values.
+ (i.e., from left to right, level by level).
 Input: root = [3,9,20,null,null,15,7]
 Output: [[3],[9,20],[15,7]]
 
@@ -26,14 +27,17 @@ Output: []
 var levelOrder = function(root) {
 //output array
     let levels=[];
-recursive function
+//recursive function
     function nodeArr(node, level){
 //check if the length of the output list array is same as the level of the current node
-//if it is the same, we push a new array into the output array, because the length of the output array should always be greate than the current level since the first level 
-//started from 0 and the first length of the output array is one(1) after adding the first child list into the output array.
+//if it is the same, we push a new array into the output array, because the length of 
+//the output array should always be greater than the current level since the first level 
+//started from 0 and the first length of the output array is one(1) after adding the 
+//first child list into the output array.
     if(levels.length==level) levels.push([]);
     levels[level].push(node.val);
-//if left is not null, it means we increment the level current level and call the recursive function
+//if left is not null, it means we increment the current level and call the recursive
+// function
     if(node.left!=null) nodeArr(node.left, level+1);
     if(node.right!=null) nodeArr(node.right, level+1);
 }

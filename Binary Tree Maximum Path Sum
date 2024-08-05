@@ -1,4 +1,6 @@
-A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. A node can only appear in the sequence at most once. Note that the path does not need to pass through the root.
+A path in a binary tree is a sequence of nodes where each pair of adjacent nodes 
+in the sequence has an edge connecting them. A node can only appear in the sequence at
+ most once. Note that the path does not need to pass through the root.
 
 The path sum of a path is the sum of the node's values in the path.
 
@@ -51,13 +53,15 @@ var maxPathSum = function(root) {
       if(node.right!==null){
         rightnode= sumPath(node.right)
         };
-        //becase a node val can be negative, we need to get the maxbtw the val and 0, so the node val will not be add to other nodes, if it is negative
+        //because a node val can be negative, we need to get the maxbtw the val and 0,
+        // so the node val will not be add to other nodes, if it is negative
         leftnode= Math.max(leftnode, 0);
         rightnode= Math.max(rightnode, 0)
         //sum of the node including the left and right node. 
         //checking if its a valid maz with the current max
          maxsum= Math.max(maxsum, node.val+leftnode+rightnode);
-        //return value, is without a split, as its wither the left node sum or the right node sum
+        //return value, is without a split, as its either the left node sum or the 
+        //right node sum
         return Math.max(node.val+leftnode , node.val+rightnode)
     }
     sumPath(root);

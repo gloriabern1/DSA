@@ -44,7 +44,8 @@ var zigzagLevelOrder = function(root) {
         result[level].push(node.val);
     }
     else{
-//if the data is to be read from the right node, we need to append each item to the beginning of the result array that level, 
+//if the data is to be read from the right node, we need to append each item to the 
+//beginning of the result array that level, 
 //Because we are starting from the left node(line 51) regardless.
         result[level].unshift(node.val);
     }
