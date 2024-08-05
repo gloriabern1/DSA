@@ -1,10 +1,15 @@
-A transformation sequence from word beginWord to word endWord using a dictionary wordList is a sequence of words beginWord -> s1 -> s2 -> ... -> sk such that:
+A transformation sequence from word beginWord to word endWord using a dictionary 
+wordList is a sequence of words beginWord -> s1 -> s2 -> ... -> sk such that:
 
     Every adjacent pair of words differs by a single letter.
-    Every si for 1 <= i <= k is in wordList. Note that beginWord does not need to be in wordList.
+    Every si for 1 <= i <= k is in wordList. Note that beginWord does not need to be 
+    in wordList.
     sk == endWord
 
-Given two words, beginWord and endWord, and a dictionary wordList, return all the shortest transformation sequences from beginWord to endWord, or an empty list if no such sequence exists. Each sequence should be returned as a list of the words [beginWord, s1, s2, ..., sk].
+Given two words, beginWord and endWord, and a dictionary wordList, return all the 
+shortest transformation sequences from beginWord to endWord, or an empty list if no 
+such sequence exists. Each sequence should be returned as a list of the 
+words [beginWord, s1, s2, ..., sk].
 
  
 
@@ -49,11 +54,13 @@ var findLadders = function(beginWord, endWord, wordList) {
      return DFSResult(al, beginWord, endWord);
 };
 
+//using BFS to get the shortest path to the end word
 function BFS(beginWord, endWord, wordList) {
 
     if(!wordList.includes(endWord)) return {};
     let patterndict= {};
-    //not adding the begin word to the list because the transformation always starts with that list and it cannot appear anywhere else in the sequence
+    //not adding the begin word to the list because the transformation always starts
+    // with that, and it cannot appear anywhere else in the sequence
     for(let word of wordList){
         //console.log('word', word)
         //generate the patterns that can be gotten from a word e.g if word is hot, then patterns ==> h*t, *ot, ho*
@@ -100,10 +107,15 @@ function BFS(beginWord, endWord, wordList) {
             //get all the neighbours/values of a pattern e.g  '*ot': [ 'hot', 'dot', 'lot' ]
             let patternWordList= patterndict[p]??[];
             for(let patternword of patternWordList){
-               
+               //If, resultFound is set to true, indicating that a valid path to
+               // the endWord has been found. This helps to stop further exploration 
+               //of paths that are longer than necessary since the goal is to find the
+               // shortest path(s)
                if(patternword== endWord){
                 resultFound=true;
                }
+               //This prevents cycles where a word points to itself.
+               //This prevents adding the same word multiple times to the adjacency list of a given word.
                 if(patternword!== word && !ajacencyList[word]?.includes(patternword)){
 
                     if(!Visited[patternword]){
@@ -114,8 +126,12 @@ function BFS(beginWord, endWord, wordList) {
                     }
                     else{
                         let wordLevel= Visited[patternword];
-                        //console.log({patternword}, wordLevel);
-                        //console.log({word}, (level) )
+                        //checks if the current level (level) is less than the level 
+                        //at which patternword was previously visited (wordLevel). 
+                        //If level is less, it indicates that there's a shorter path 
+                        //to patternword through the current word, so patternword is 
+                        //added to the adjacency list of word (ajacencyList[word]). 
+                        //This helps ensure that all shortest paths are considered.
                         if(level< wordLevel) {ajacencyList[word].push(patternword)}
                     }
                 };
