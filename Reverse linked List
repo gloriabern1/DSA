@@ -1,0 +1,48 @@
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+//Iterative solution time comp 0(n), space comp 0(1)
+var reverseList = function(head) {
+ let prev=null;
+ let curr= head;
+    while(curr){
+   //To temporary store the next current node
+   //temp= 2->3, temp=3
+    let temp= curr.next;
+    //Reverse the next of the current not to point to previous
+    // 1->2->3 to be 1->null 
+    // 2->3 to be 2->1->null
+    curr.next=prev;
+    //set previous to a new head(current)
+    //prev= 1->null
+    //prev= 2->1->null
+    prev= curr;
+    //continue from the traversal for the list
+    //curr= 2->3
+    //curr=3
+    curr=temp;
+    }
+    //3->2->1
+    return prev;
+};
+
+//recursive solution
+//time comp 0(n), space comp 0(n) because of the space used in the recursive stack
+function reverseList(head){
+    if(head==null || head.next==null){
+        return head;
+    }
+
+    let reversedList= reverseList(head.next);
+    head.next.next=head;
+    head.next=null;
+    return reversedList;
+}
