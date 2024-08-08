@@ -1,4 +1,6 @@
-Given the head of a singly linked list and two integers left and right where left <= right, reverse the nodes of the list from position left to position right, and return the reversed list.
+Given the head of a singly linked list and two integers left and right 
+where left <= right, reverse the nodes of the list from position left to position 
+right, and return the reversed list.
 
  
 
@@ -71,7 +73,9 @@ var reverseBetween = function(head, left, right) {
     //lp is still at node before left.
     //lp.next is left
     //lp.next.next is null
+    //curr is the node after the reversed list (temp)
      lp.next.next=curr;
+     //prev is the reversed list
     lp.next=prev;
 
     return dummyNode.next;
