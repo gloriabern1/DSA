@@ -29,6 +29,7 @@ Output: [3,2,1,4,5]
  * @param {number} k
  * @return {ListNode}
  */
+//Time comp 0(n) space comp 0(1) https://www.youtube.com/watch?v=1UOPsfP85V4
 var reverseKGroup = function (head, k) {
     //using dummynode, so we can alway return the next as the modified list
  let dummyNode= new ListNode(0, head);
